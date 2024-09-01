@@ -42,6 +42,7 @@ html {
   width: 100%;
   max-width: 580px; /* 가로 최대 크기 설정 */
   height: 100vh; /* 화면 높이에 맞게 설정 */
+  margin: 0 auto; /* 중앙 정렬 */
   padding: 20px;
   box-sizing: border-box;
   background-color: var(--color-container); /* 컨테이너 배경 색상 */

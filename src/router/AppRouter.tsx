@@ -1,21 +1,15 @@
-// import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
-// import About from '../pages/About';
-// import Home from '../pages/Home';
-// import NotFound from '../pages/NotFound';
-// import React from 'react';
+import Main from "../pages/main/Main";
 
-// const AppRouter: React.FC = () => {
-//   return (
-//     <Router>
-//       <Routes>
-//         <Route path="/" element={<Home />} />
-//         <Route path="/about" element={<About />} />
-//         {/* 존재하지 않는 경로 처리 */}
-//         <Route path="*" element={<NotFound />} />
-//       </Routes>
-//     </Router>
-//   );
-// };
+function AppRouter() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Main />} />
+      </Routes>
+    </Router>
+  );
+}
 
-// export default AppRouter;
+export default AppRouter;
