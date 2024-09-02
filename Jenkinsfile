@@ -15,6 +15,12 @@ pipeline {
             }
         }
 
+        stage('Setup Safe Directory') {
+            steps {
+                sh 'git config --global --add safe.directory /var/jenkins_home/workspace/bbansrun-fe@2'
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 script {
