@@ -11,6 +11,7 @@ pipeline {
     }
 
     stages {
+
         stage('Build Docker Image') {
             steps {
                 script {
@@ -37,10 +38,8 @@ pipeline {
                     sshagent (credentials: ['EC2_SSH_CREDENTIALS_ID']) {
                         sh """
                         ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} << 'EOF'
-                        # EC2 서버에서 기존 컨테이너 종료 및 제거
-                        docker-compose down || true
-                        
-                        # 최신 버전의 이미지를 가져와서 Docker Compose 실행
+                        cd /var/www/bbansrun-fe
+                        docker-compose down
                         docker-compose pull
                         docker-compose up -d
                         EOF
@@ -48,6 +47,12 @@ pipeline {
                     }
                 }
             }
+            
+        }
+    }
+    post {
+        always {
+            cleanWs()
         }
     }
 }
