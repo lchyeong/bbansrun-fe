@@ -1,16 +1,19 @@
 pipeline {
     agent any
 
-
     environment {
         DOCKER_CREDENTIALS_ID = '2de552dc-d91d-4448-a119-eb81e12fc75c'  // Docker Hub 자격 증명 ID
         DOCKER_IMAGE = 'chany91/bbansrun-fe'  // Docker Hub에 저장할 이미지 이름
         EC2_SSH_CREDENTIALS_ID = 'EC2_SSH_CREDENTIALS_ID'  // EC2 SSH 자격 증명 ID
         EC2_HOST = '54.180.241.109'  // EC2 인스턴스의 퍼블릭 IP 또는 DNS
-
     }
 
     stages {
+        stage('Checkout SCM') {
+            steps {
+                checkout scm
+            }
+        }
 
         stage('Build Docker Image') {
             steps {
@@ -47,9 +50,9 @@ pipeline {
                     }
                 }
             }
-            
         }
     }
+
     post {
         always {
             cleanWs()
