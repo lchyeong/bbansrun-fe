@@ -1,0 +1,7 @@
+version: '3'
+services:
+  frontend:
+    image: chany91/bbansrun-fe:latest # Docker Hub에 푸시된 이미지 사용
+    ports:
+      - '80:80'
+    restart: always
