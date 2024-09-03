@@ -22,6 +22,7 @@ export default [
       ...tseslint.configs['recommended'].rules,
       ...pluginReact.configs.recommended.rules,
       'prettier/prettier': 'error', // Prettier 규칙을 ESLint 규칙으로 사용
+      'react/react-in-jsx-scope': 'off',
     },
   },
 ];

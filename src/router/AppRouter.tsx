@@ -1,6 +1,6 @@
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
-import Main from "../pages/main/Main";
+import Main from '../pages/main/Main';
 
 function AppRouter() {
   return (

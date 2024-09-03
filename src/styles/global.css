@@ -13,9 +13,9 @@
   --color-container: #212121; /* 컨테이너 배경 색상 */
   --color-background: #ffffff; /* 기본 배경 색상 */
 
-  --font-body: "Roboto", sans-serif; /* 본문 폰트 */
-  --font-heading: "Poppins", sans-serif; /* 제목 폰트 */
-  --font-monospace: "Courier New", monospace; /* 모노스페이스 폰트 */
+  --font-body: 'Roboto', sans-serif; /* 본문 폰트 */
+  --font-heading: 'Poppins', sans-serif; /* 제목 폰트 */
+  --font-monospace: 'Courier New', monospace; /* 모노스페이스 폰트 */
 }
 
 /* 기본적인 CSS 리셋 (필요에 따라 추가 가능) */

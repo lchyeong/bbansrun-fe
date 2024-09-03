@@ -11,10 +11,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
@@ -52,7 +52,7 @@ jobs:
             # 이전 컨테이너 중지 및 제거
             if [ $PORT -gt 3000 ]; then
               OLD_PORT=$((PORT-1))
-              docker stop bbansrun-fe-$OLD_PORT || true
-              docker rm bbansrun-fe-$OLD_PORT || true
+              docker stop fe-$OLD_PORT || true
+              docker rm fe-$OLD_PORT || true
             fi
           EOF

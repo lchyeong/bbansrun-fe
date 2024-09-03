@@ -5,5 +5,5 @@
 #     image: chany91/bbansrun-fe:latest
 #     container_name: frontend
 #     ports:
-#       - "5173:5173"
+#       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
 #     restart: always

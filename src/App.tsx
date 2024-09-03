@@ -1,8 +1,8 @@
-import "./styles/global.css"; // 글로벌 스타일 불러오기
+import './styles/global.css'; // 글로벌 스타일 불러오기
 
-import AppRouter from "./router/AppRouter";
-import Footer from "./components/footer/Footer";
-import Header from "./components/header/Header";
+import AppRouter from './router/AppRouter';
+import Footer from './components/footer/Footer';
+import Header from './components/header/Header';
 
 function App() {
   return (
