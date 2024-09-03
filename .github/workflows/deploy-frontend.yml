@@ -36,6 +36,9 @@ jobs:
 
             cd /var/www
 
+            # 최신 Docker 이미지 가져오기
+            docker pull chany91/bbansrun-fe:latest
+
             # 기존 포트 5173 상태 확인
             if lsof -i:5173 > /dev/null; then
               echo "Port 5173 is currently in use. Preparing to deploy on port 5174."
@@ -56,7 +59,7 @@ jobs:
                 break
               else
                 echo "Application is not yet running, retrying in 20 seconds..."
-                sleep 20
+                sleep 30
               fi
 
               if [ $i -eq 3 ]; then
@@ -66,7 +69,7 @@ jobs:
             done
 
             # 포트가 정상적으로 구동된 후에만 트래픽 전환
-            if [ $PORT -eq 5174 ]; then
+            if [ $PORT -eq 5174]; then
               docker stop fe-5173 || true
               docker rm fe-5173 || true
 

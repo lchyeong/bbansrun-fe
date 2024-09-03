@@ -1,5 +1,5 @@
 # Step 1: Use the specified Node.js version as the base image
-FROM node:20.12.2-alpine AS build
+FROM node:v20.12.2-alpine AS build
 
 # Step 2: Set the working directory
 WORKDIR /app
@@ -23,9 +23,7 @@ FROM nginx:alpine
 COPY --from=build /app/dist /usr/share/nginx/html
 
 # Step 9: Expose the port
-EXPOSE 5173
+EXPOSE 80
 
-# Step 10: Start Npm
-CMD ["npm", "run", "dev"]
-
-
+# Step 10: Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
