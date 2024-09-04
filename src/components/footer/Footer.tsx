@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
   return (
     <BottomNavigation
       value={value}
-      onChange={(event, newValue) => {
+      onChange={(_, newValue) => {
         setValue(newValue);
       }}
       className="max-w-[580px] mx-auto w-full fixed bottom-0 bg-white"

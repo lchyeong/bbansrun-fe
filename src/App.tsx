@@ -8,7 +8,7 @@ import TopMenu from './components/header/TopMenu';
 const App: React.FC = () => {
   return (
     <ContainerWrapper>
-      <Header />
+      <Header isAdmin={true} />
       <TopMenu />
       <div className="p-4 pt-[70px] pb-[60px] h-full overflow-auto">
         <AppRouter />
