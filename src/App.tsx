@@ -1,19 +1,19 @@
-import './styles/global.css'; // 글로벌 스타일 불러오기
-
 import AppRouter from './router/AppRouter';
+import ContainerWrapper from './components/ContainerWrapper';
 import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
+import React from 'react';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="container flex flex-col min-h-screen">
+    <ContainerWrapper>
       <Header />
-      <div className="flex-grow">
+      <div className="flex-grow p-20">
         <AppRouter />
       </div>
       <Footer />
-    </div>
+    </ContainerWrapper>
   );
-}
+};
 
 export default App;

@@ -1,9 +1,0 @@
-# version: '3.8'
-
-# services:
-#   frontend:
-#     image: chany91/bbansrun-fe:latest
-#     container_name: frontend
-#     ports:
-#       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
-#     restart: always

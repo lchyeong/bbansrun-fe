@@ -1,29 +1,25 @@
-import { AppBar, Button, Toolbar, Typography } from '@mui/material';
+import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
 
-function Header() {
+import MenuIcon from '@mui/icons-material/Menu';
+// Header.tsx
+import React from 'react';
+
+const Header: React.FC = () => {
   return (
-    <AppBar position="static">
-      <Toolbar className="flex justify-between">
-        <Typography variant="h6" className="text-white">
-          BBANS RUN
+    <AppBar
+      position="static"
+      className="max-w-[580px] mx-auto w-full bg-black shadow-md"
+    >
+      <Toolbar>
+        <IconButton edge="start" color="inherit" aria-label="menu">
+          <MenuIcon />
+        </IconButton>
+        <Typography variant="h6" className="flex-grow">
+          MUSINSA
         </Typography>
-        <div>
-          <Button color="inherit" className="mx-2">
-            Home
-          </Button>
-          <Button color="inherit" className="mx-2">
-            Crews
-          </Button>
-          <Button color="inherit" className="mx-2">
-            Events
-          </Button>
-          <Button color="inherit" className="mx-2">
-            Forum
-          </Button>
-        </div>
       </Toolbar>
     </AppBar>
   );
-}
+};
 
 export default Header;

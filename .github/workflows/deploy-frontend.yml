@@ -49,7 +49,7 @@ jobs:
             fi
             
             # 새로운 포트에서 애플리케이션 실행
-            FRONTEND_PORT=$PORT docker-compose up -d --no-deps
+            FRONTEND_PORT=$PORT docker-compose up -d --no-deps bbansrun-fe
 
             # 새로운 컨테이너가 정상적으로 실행되었는지 3번까지 반복 확인
             for i in 1 2 3; do
@@ -76,7 +76,7 @@ jobs:
               # 포트 5173으로 트래픽 전환
               docker stop fe-5174 || true
               docker rm fe-5174 || true
-              FRONTEND_PORT=5173 docker-compose up -d --no-deps
+              FRONTEND_PORT=5173 docker-compose up -d --no-deps bbansrun-fe
             fi
 
             # 이전 포트 제거 (포트 5175 사용 중지)
