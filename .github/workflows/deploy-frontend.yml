@@ -36,6 +36,23 @@ jobs:
 
             cd /var/www
 
+            # 함수 정의: 포트에서 애플리케이션 상태 확인
+            check_port() {
+              local PORT=$1
+              for i in 1 2 3; do
+                echo "Checking if application is running on port $PORT (Attempt $i/3)..."
+                if curl -f http://localhost:$PORT > /dev/null; then
+                  echo "Application is running on port $PORT."
+                  return 0
+                else
+                  echo "Application is not yet running, retrying in 30 seconds..."
+                  sleep 30
+                fi
+              done
+              echo "Error: Application failed to start on port $PORT after 3 attempts."
+              exit 1
+            }
+
             # 최신 Docker 이미지 가져오기
             docker pull chany91/bbansrun-fe:latest
 
@@ -50,38 +67,25 @@ jobs:
             
             # 새로운 포트에서 애플리케이션 실행
             FRONTEND_PORT=$PORT docker-compose up -d --no-deps bbansrun-fe
+            check_port $PORT
 
-            # 새로운 컨테이너가 정상적으로 실행되었는지 3번까지 반복 확인
-            for i in 1 2 3; do
-              echo "Checking if application is running on port $PORT (Attempt $i/3)..."
-              if curl -f http://localhost:$PORT > /dev/null; then
-                echo "Application is running on port $PORT."
-                break
-              else
-                echo "Application is not yet running, retrying in 20 seconds..."
-                sleep 30
-              fi
-
-              if [ $i -eq 3 ]; then
-                echo "Error: Application failed to start on port $PORT after 3 attempts."
-                exit 1
-              fi
-            done
+            # 5174에서 5173으로 트래픽 전환하기 전 5175에서 준비
+            echo "Starting application on port 5175 for temporary fallback."
+            FRONTEND_PORT=5175 docker-compose up -d --no-deps bbansrun-fe
+            check_port 5175
 
             # 포트가 정상적으로 구동된 후에만 트래픽 전환
-            if [ $PORT -eq 5174]; then
+            if [ $PORT -eq 5174 ]; then
               docker stop fe-5173 || true
               docker rm fe-5173 || true
 
-              # 포트 5173으로 트래픽 전환
-              docker stop fe-5174 || true
-              docker rm fe-5174 || true
+              # 5175에서 서비스 정상 작동 확인 후 5173으로 트래픽 전환
               FRONTEND_PORT=5173 docker-compose up -d --no-deps bbansrun-fe
+              
+              echo "Stopping temporary instance on port 5175."
+              docker stop fe-5175 || true
+              docker rm fe-5175 || true
             fi
-
-            # 이전 포트 제거 (포트 5175 사용 중지)
-            docker stop fe-5175 || true
-            docker rm fe-5175 || true
 
             echo "Deployment completed successfully on port $PORT."
           EOF
