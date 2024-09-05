@@ -36,51 +36,55 @@ jobs:
 
             cd /var/www
 
-            # 함수 정의: 포트에서 애플리케이션 상태 확인
-            check_port() {
-              local PORT=$1
-              for i in 1 2 3; do
-                echo "Checking if application is running on port $PORT (Attempt $i/3)..."
-                if curl -f http://localhost:$PORT > /dev/null; then
-                  echo "Application is running on port $PORT."
-                  return 0
-                else
-                  echo "Application is not yet running, retrying in 30 seconds..."
-                  sleep 30
-                fi
-              done
-              echo "Error: Application failed to start on port $PORT after 3 attempts."
-              exit 1
-            }
+            docker pull chany91/bbansrun-fe:latest
+            
+            docker-compose up -d --no-deps bbansrun_blue
+            curl -X POST -H 'Content-Type: application/json' -d '{"content": "프론트 배포가 성공적으로 완료되었습니다."}'  https://discord.com/api/webhooks/1281072652118655057/QVvLbv-FhwvVuEcTt7CNcd_gq07m-pcI_lf29EHa70or4Dx4BxP6ZXhPBfRZPyZT64ms -v
+
+          EOF
+          rm deploy_key
+
+
+
+            # # 함수 정의: 포트에서 애플리케이션 상태 확인   << 나중에 다시 살펴보자. 일단 컨테이너 하나쓰고 아마 쿠버네티스나 nginx api 써서 동적으로 다뤄야할듯..>>
+            # check_port() {
+            #   local PORT=$1
+            #   for i in 1 2 3; do
+            #     echo "Checking if application is running on port $PORT (Attempt $i/3)..."
+            #     if curl -f http://localhost:$PORT > /dev/null; then
+            #       echo "Application is running on port $PORT."
+            #       return 0
+            #     else
+            #       echo "Application is not yet running, retrying in 30 seconds..."
+            #       sleep 30
+            #     fi
+            #   done
+            #   echo "Error: Application failed to start on port $PORT after 3 attempts."
+            #   exit 1
+            # }
 
             # 최신 Docker 이미지 가져오기
             docker pull chany91/bbansrun-fe:latest
             
             
-            # 기존 포트 5173 상태 확인
-            if curl -f http://localhost:5173 > /dev/null; then
-              echo "Port 5173 is currently in use. Preparing to deploy on port 5174."
+            # # 기존 포트 5173 상태 확인
+            # if curl -f http://localhost:5173 > /dev/null; then
+            #   echo "Port 5173 is currently in use. Preparing to deploy on port 5174."
 
-              # 포트 5174에서 애플리케이션 실행
-              echo "Deploying on port 5174 (fe-5174)"
-              docker-compose up -d --no-deps bbansrun-fe-5174
+            #   # 포트 5174에서 애플리케이션 실행
+            #   echo "Deploying on port 5174 (fe-5174)"
+            #   docker-compose up -d --no-deps bbansrun-fe-5174
               
-              # 5174에서 응답이 없으면 스크립트 중단
-              check_port 5174
+            #   # 5174에서 응답이 없으면 스크립트 중단
+            #   check_port 5174
 
-              # 5173 포트 종료
-              echo "Stopping temporary instance on port 5173."
-              docker stop fe-5173 || true
-              docker rm fe-5173 || true
+            #   # 5173 포트 종료
+            #   echo "Stopping temporary instance on port 5173."
+            #   docker stop fe-5173 || true
+            #   docker rm fe-5173 || true
 
-            else
-              # 5173 포트가 비어있으면 바로 배포
-              echo "Port 5173 is free. Deploying on port 5173 (fe-5173)"
-              docker-compose up -d --no-deps bbansrun-fe-5173
-              check_port 5173
-            fi
-
-            curl -X POST -H 'Content-Type: application/json' -d '{"content": "프론트 배포가 성공적으로 완료되었습니다."}'  https://discord.com/api/webhooks/1281072652118655057/QVvLbv-FhwvVuEcTt7CNcd_gq07m-pcI_lf29EHa70or4Dx4BxP6ZXhPBfRZPyZT64ms -v
-
-          EOF
-          rm deploy_key
+            # else
+            #   # 5173 포트가 비어있으면 바로 배포
+            #   echo "Port 5173 is free. Deploying on port 5173 (fe-5173)"
+            #   docker-compose up -d --no-deps bbansrun-fe-5173
+            #   check_port 5173
