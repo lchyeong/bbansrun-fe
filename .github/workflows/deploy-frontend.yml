@@ -65,29 +65,27 @@ jobs:
               # 포트 5174에서 애플리케이션 실행
               echo "Deploying on port 5174 (fe-5174)"
               FRONTEND_PORT=5174 docker-compose up -d --no-deps bbansrun-fe-5174
-              check_port 5174
+              
+              # 5174에서 응답이 없으면 스크립트 중단
+              check_port 5174 || exit 1
 
-              # 51753 포트 종료
+              # 5173 포트 종료
               echo "Stopping temporary instance on port 5173."
               docker stop fe-5173 || true
               docker rm fe-5173 || true
 
-              # 5175에서 임시 준비 및 트래픽 전환
-              echo "Starting application on port 5175 for temporary fallback."
-              FRONTEND_PORT=5175 docker-compose up -d --no-deps bbansrun-fe-5175
-              check_port 5175
-
-              # 5174에서 5173으로 트래픽 전환
-              echo "Switching traffic from port 5174 to 5173."
-              docker stop fe-5173 || true
-              docker rm fe-5173 || true
+              # 포트 5173에서 애플리케이션 실행
+              echo "Deploying on port 5173 (fe-5173)"
               FRONTEND_PORT=5173 docker-compose up -d --no-deps bbansrun-fe-5173
               check_port 5173
 
-              # 임시로 띄운 5175 포트 종료
-              echo "Stopping temporary instance on port 5175."
-              docker stop fe-5175 || true
-              docker rm fe-5175 || true
+              # 5173에서 응답이 없으면 스크립트 중단
+              check_port 5173 || exit 1
+
+              # 5174에서 5173으로 트래픽 전환
+              echo "Switching traffic from port 5174 to 5173."
+              docker stop fe-5174 || true
+              docker rm fe-5174 || true
 
             else
               # 5173 포트가 비어있으면 바로 배포
@@ -98,3 +96,4 @@ jobs:
 
             echo "Deployment completed successfully on port $PORT."
           EOF
+          rm deploy_key
