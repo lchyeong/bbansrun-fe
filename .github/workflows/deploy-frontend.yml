@@ -67,6 +67,11 @@ jobs:
               FRONTEND_PORT=5174 docker-compose up -d --no-deps bbansrun-fe-5174
               check_port 5174
 
+              # 51753 포트 종료
+              echo "Stopping temporary instance on port 5173."
+              docker stop fe-5173 || true
+              docker rm fe-5173 || true
+
               # 5175에서 임시 준비 및 트래픽 전환
               echo "Starting application on port 5175 for temporary fallback."
               FRONTEND_PORT=5175 docker-compose up -d --no-deps bbansrun-fe-5175
