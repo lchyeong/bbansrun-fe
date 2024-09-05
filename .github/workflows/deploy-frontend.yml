@@ -57,7 +57,7 @@ jobs:
             docker pull chany91/bbansrun-fe:latest
 
             # 기존 포트 5173 상태 확인
-            if lsof -i:5173 > /dev/null; then
+            if ss -tuln | grep :5173 > /dev/null; then
               echo "Port 5173 is currently in use. Preparing to deploy on port 5174."
               PORT=5174
 
