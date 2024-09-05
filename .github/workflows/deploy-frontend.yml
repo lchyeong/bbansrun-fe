@@ -55,9 +55,10 @@ jobs:
 
             # 최신 Docker 이미지 가져오기
             docker pull chany91/bbansrun-fe:latest
-
+            
+            port=5173
             # 기존 포트 5173 상태 확인
-            if ss -tuln | grep :5173 > /dev/null; then
+            if curl -f http://localhost:5173 > /dev/null; then
               echo "Port 5173 is currently in use. Preparing to deploy on port 5174."
               PORT=5174
 

@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Step 4: Install dependencies
-RUN npm install
+RUN npm install && apk add --no-cache curl
 
 # Step 5: Copy the entire project to the container
 COPY . .
