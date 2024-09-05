@@ -1,47 +1,68 @@
-import React, { useState } from 'react';
-
+import React, { useEffect, useRef, useState } from 'react';
 const TopMenu: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const [isSticky, setIsSticky] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
-  const tabs = [
-    'Category 1',
-    'Category 2',
-    'Category 3',
-    'Category 4',
-    'Category 5',
-    'Category 6',
-  ];
+  const tabs = ['Menu', 'Menu 2', 'Menu 3', 'Menu 4', 'Menu 5'];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (menuRef.current) {
+        window.requestAnimationFrame(() => {
+          if (window.scrollY > 60) {
+            setIsSticky(true);
+          } else {
+            setIsSticky(false);
+          }
+        });
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const handleTabClick = (index: number) => {
+    setActiveTab(index);
+    window.scrollTo(0, 0); // 클릭 시 바로 상단으로 이동
+  };
 
   return (
-    <div className="bg-white shadow z-50 fixed top-[60px] left-0 right-0 w-full max-w-[580px] mx-auto">
-      {/* 고정된 탭 네비게이션 */}
+    <div className="w-full max-w-[580px] mx-auto bg-white shadow">
+      {/* 탭 네비게이션 */}
       <nav
-        className="flex justify-around border-b border-gray-200"
+        ref={menuRef}
+        className={`w-full max-w-[580px] z-50 bg-white shadow flex justify-around border-b ${
+          isSticky ? 'fixed top-0' : 'relative'
+        }`}
         aria-label="Tabs"
       >
         {tabs.map((tab, index) => (
           <button
             key={index}
-            className={`w-full py-4 px-1 text-center text-sm font-medium text-gray-600 ${
+            className={`w-full py-4 px-1 text-center text-sm ${
               activeTab === index
-                ? 'font-bold text-blue-600'
-                : 'font-normal hover:font-semibold hover:text-gray-800'
+                ? 'font-semibold text-gray-800'
+                : 'font-normal font-medium text-gray-500 hover:font-semibold hover:text-gray-800'
             }`}
-            onClick={() => setActiveTab(index)}
+            onClick={() => handleTabClick(index)}
           >
             {tab}
           </button>
         ))}
       </nav>
 
-      {/* 탭에 따른 콘텐츠 -> 나중에 링크로 바꿔야함*/}
-      <div className="p-4">
+      {/* 탭에 따른 콘텐츠 */}
+      <div className={`p-4 ${isSticky ? 'pt-16' : ''}`}>
         {activeTab === 0 && <div>Content for Category 1</div>}
         {activeTab === 1 && <div>Content for Category 2</div>}
         {activeTab === 2 && <div>Content for Category 3</div>}
         {activeTab === 3 && <div>Content for Category 4</div>}
         {activeTab === 4 && <div>Content for Category 5</div>}
-        {activeTab === 5 && <div>Content for Category 6</div>}
       </div>
     </div>
   );

@@ -24,6 +24,7 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
         maxWidth: '580px',
         mx: 'auto',
         position: 'relative',
+        borderBottom: '1px solid #000',
       }}
     >
       {/* 왼쪽 타이틀 */}
