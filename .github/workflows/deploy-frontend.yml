@@ -80,7 +80,7 @@ jobs:
               check_port 5173
             fi
 
-            curl -X POST -H 'Content-Type: application/json' -d '{"content": "배포가 성공적으로 완료되었습니다."}' https://discord.com/api/webhooks/1281072652118655057/QVvLbv-FhwvVuEcTt7CNcd_gq07m-pcI_lf29EHa70or4Dx4BxP6ZXhPBfRZPyZT64ms
+            curl -X POST -H 'Content-Type: application/json' -d '{"content": "프론트 배포가 성공적으로 완료되었습니다."}'  https://discord.com/api/webhooks/1281072652118655057/QVvLbv-FhwvVuEcTt7CNcd_gq07m-pcI_lf29EHa70or4Dx4BxP6ZXhPBfRZPyZT64ms -v
 
           EOF
           rm deploy_key
