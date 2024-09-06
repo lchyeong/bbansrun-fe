@@ -38,7 +38,7 @@ jobs:
 
             docker pull chany91/bbansrun-fe:latest
 
-            docker-compose up -d --no-deps bbansrun_blue
+            docker-compose up -d --no-deps bbansrun_fe_blue
             curl -X POST -H 'Content-Type: application/json' -d '{"content": "프론트 배포가 성공적으로 완료되었습니다."}'  https://discord.com/api/webhooks/1281072652118655057/QVvLbv-FhwvVuEcTt7CNcd_gq07m-pcI_lf29EHa70or4Dx4BxP6ZXhPBfRZPyZT64ms -v
 
           EOF
