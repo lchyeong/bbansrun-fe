@@ -11,7 +11,7 @@ import TopMenu from './components/header/TopMenu';
 const AppContent: React.FC = () => {
   const location = useLocation();
 
-  const fullScreenPages = ['/mypage'];
+  const fullScreenPages = ['/mypage', '/login'];
   const isFullScreen = fullScreenPages.includes(location.pathname);
 
   return (

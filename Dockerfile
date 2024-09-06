@@ -17,4 +17,4 @@ COPY . .
 RUN npm run build
 
 # Step 7: Run the application using Node.js
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start"]
