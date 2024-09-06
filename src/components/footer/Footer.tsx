@@ -10,7 +10,7 @@ import SearchIcon from '@mui/icons-material/Search';
 const Footer: React.FC = () => {
   const [value, setValue] = React.useState<number>(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
