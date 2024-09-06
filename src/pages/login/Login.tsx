@@ -54,7 +54,7 @@ const LoginPage: React.FC = () => {
 
           <button
             type="submit"
-            className="w-full py-2 px-4 text-black rounded-md font-medium relative overflow-hidden group transition-all duration-300 ease-in-out"
+            className="w-full py-2 px-4 text-black rounded-md font-medium relative overflow-hidden  group transition-all duration-300 ease-in-out"
           >
             <span className="relative z-10">이메일로 시작하기</span>
             <span className="absolute inset-0 border-2 border-transparent transition-all duration-300 ease-in-out group-hover:border-primary"></span>

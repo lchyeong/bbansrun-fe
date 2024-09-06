@@ -21,7 +21,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build --no-cache -t chany91/bbansrun-fe:latest .
+          docker build -t chany91/bbansrun-fe:latest .
           docker push chany91/bbansrun-fe:latest
 
       - name: Deploy to server
