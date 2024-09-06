@@ -16,5 +16,5 @@ COPY . .
 # Step 6: Build the project
 RUN npm run build
 
-# Step 7: Run the application using Node.js
-CMD ["npm", "run", "dev"]
+# Step 7: Serve the application in production mode
+CMD ["npm", "run", "start"]
