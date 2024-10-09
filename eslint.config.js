@@ -9,7 +9,10 @@ export default [
   {
     files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
     languageOptions: {
-      globals: globals.browser,
+      globals: {
+        ...globals.browser, // 브라우저 환경 설정
+        ...globals.node, // Node.js 환경 설정 추가 (process 등 전역 변수 인식)
+      },
       parser: parserTs, // TypeScript 파서를 설정
     },
     plugins: {
