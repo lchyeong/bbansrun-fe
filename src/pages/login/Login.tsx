@@ -101,24 +101,24 @@ const LoginPage: React.FC = () => {
 
         {/* 소셜 로그인 섹션 */}
         <div className="mt-6 text-center">
-          <div className="flex justify-center space-x-4 mt-4">
-            <button className="bg-white border border-gray-300 p-2 rounded-full">
+          <div className="flex justify-center space-x-12 mt-4">
+            <button>
               <img
-                src="/path-to-google-icon.png"
+                src="https://bbansrun.s3.ap-northeast-2.amazonaws.com/S3/SocialAuth/btn_google.svg"
                 alt="Google 로그인"
                 className="h-8 w-8"
               />
             </button>
-            <button className="bg-white border border-gray-300 p-2 rounded-full">
+            <button>
               <img
-                src="/path-to-kakao-icon.png"
+                src="https://bbansrun.s3.ap-northeast-2.amazonaws.com/S3/SocialAuth/btn_kakao.svg"
                 alt="Kakao 로그인"
                 className="h-8 w-8"
               />
             </button>
-            <button className="bg-white border border-gray-300 p-2 rounded-full">
+            <button>
               <img
-                src="/path-to-naver-icon.png"
+                src="https://bbansrun.s3.ap-northeast-2.amazonaws.com/S3/SocialAuth/btn_naver.svg"
                 alt="Naver 로그인"
                 className="h-8 w-8"
               />
