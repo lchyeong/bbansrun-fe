@@ -2,6 +2,7 @@ import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 
 import { Link } from 'react-router-dom';
 import React from 'react';
+import { logout } from '../../api/authApi'; // 로그아웃 함수 가져오기
 import { useAuthStore } from '../../store/useAuthStore'; // 로그인 상태를 가져오는 Zustand 스토어
 
 interface ListItemProps {
@@ -24,28 +25,39 @@ const ListItem: React.FC<ListItemProps> = ({ to, text }) => {
 const MyPage: React.FC = () => {
   const { userUuid } = useAuthStore(); // Zustand 스토어에서 uuid 가져오기 (로그인 여부 확인)
 
+  const handleLogout = async () => {
+    try {
+      await logout(); // 로그아웃 요청
+      console.log('로그아웃 성공');
+    } catch (error) {
+      console.error('로그아웃 실패:', error);
+    }
+  };
+
   return (
     <div className="min-h-screen p-4">
-      <div className="flex items-center mb-4">
-        <Link to="/" className="text-gray-500 mr-3">
-          <ChevronLeft />
-        </Link>
-        <h1 className="text-xl font-bold text-gray-800">MyPage</h1>
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center">
+          <Link to="/" className="text-gray-500 mr-3">
+            <ChevronLeft />
+          </Link>
+          <h1 className="text-xl font-bold text-gray-800">MyPage</h1>
+        </div>
+
+        {/* 로그인 여부에 따른 버튼 표시 */}
+        {userUuid ? (
+          <button onClick={handleLogout} className="mr-2 text-blue-800">
+            로그아웃
+          </button>
+        ) : (
+          <Link to="/login" className="mr-2 text-blue-800">
+            로그인
+          </Link>
+        )}
       </div>
 
       <div className="bg-white rounded-lg shadow-lg">
         <ul>
-          {/* 로그인하지 않았을 때만 '로그인 하기' 항목 표시 */}
-          {!userUuid && (
-            <div className="bg-white p-4 rounded flex justify-between items-center">
-              <span></span>
-              {/* '로그인 하기' 링크를 오른쪽으로 배치 */}
-              <Link to="/login" className="mr-2 text-blue-800">
-                로그인
-              </Link>
-            </div>
-          )}
-          {/* 로그인 상태에 따라 다른 항목 렌더링 */}
           {userUuid ? (
             <>
               <ListItem to="/account" text="계정 관리" />

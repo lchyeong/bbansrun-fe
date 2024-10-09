@@ -36,7 +36,6 @@ export const login = async (credentials: Credentials) => {
 export const logout = () => {
   // 1. localStorage에 저장된 JWT 토큰 삭제
   localStorage.removeItem('jwtToken');
-  localStorage.removeItem('refreshToken');
 
   // 2. 서버에 요청을 보내 리프레시 토큰 쿠키 만료 (선택적)
   apiClient
