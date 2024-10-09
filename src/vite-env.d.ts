@@ -1,6 +1,10 @@
-export default {
-  server: {
-    host: '0.0.0.0', // 모든 IP에서 접근 가능하도록 설정
-    port: 5173, // 포트는 5173으로 유지
-  },
-};
+/// <reference types="vite/client" />
+
+interface ImportMetaEnv {
+  readonly VITE_API_URL: string;
+  // 다른 환경 변수가 있다면 여기에 추가
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
