@@ -26,6 +26,18 @@ const LoginPage: React.FC = () => {
     navigate(-1); // 이전 페이지로 이동
   };
 
+  const baseURL = import.meta.env.VITE_API_URL;
+
+  // 소셜 로그인 처리 함수
+  const handleSocialLogin = (provider: string) => {
+    // Spring Security에서 제공하는 OAuth2 로그인 엔드포인트로 리다이렉트
+    window.open(
+      `${baseURL}/api/login/oauth2/authorization/${provider}`,
+      '_blank',
+      'width=500,height=600'
+    );
+  };
+
   return (
     <div className="bg-primary min-h-screen flex flex-col justify-start items-center p-4">
       {/* 상단 화살표 및 제목 */}
@@ -102,21 +114,21 @@ const LoginPage: React.FC = () => {
         {/* 소셜 로그인 섹션 */}
         <div className="mt-6 text-center">
           <div className="flex justify-center space-x-12 mt-4">
-            <button>
+            <button onClick={() => handleSocialLogin('google')}>
               <img
                 src="https://bbansrun.s3.ap-northeast-2.amazonaws.com/S3/SocialAuth/btn_google.svg"
                 alt="Google 로그인"
                 className="h-8 w-8"
               />
             </button>
-            <button>
+            <button onClick={() => handleSocialLogin('kakao')}>
               <img
                 src="https://bbansrun.s3.ap-northeast-2.amazonaws.com/S3/SocialAuth/btn_kakao.svg"
                 alt="Kakao 로그인"
                 className="h-8 w-8"
               />
             </button>
-            <button>
+            <button onClick={() => handleSocialLogin('naver')}>
               <img
                 src="https://bbansrun.s3.ap-northeast-2.amazonaws.com/S3/SocialAuth/btn_naver.svg"
                 alt="Naver 로그인"
