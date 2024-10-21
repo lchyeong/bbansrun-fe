@@ -1,7 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
 
-import Login from '../pages/login/Login';
-import Main from '../pages/main/Main';
+import CategoryPage from '../pages/category/CategoryPage';
+import Login from '../pages/login/LoginPage';
+import Main from '../pages/main/MainPage';
 import MyPage from '../pages/mypage/MyPage';
 
 function AppRouter() {
@@ -12,6 +13,7 @@ function AppRouter() {
       <Route path="/" element={<Main />} />
       <Route path="/login" element={<Login />} />
       <Route path="/mypage" element={<MyPage />} />
+      <Route path="/category" element={<CategoryPage />} />
     </Routes>
   );
 }

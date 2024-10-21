@@ -3,7 +3,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#E9FF97', // 주 색상
+        primary: '#BCC6CC', // 주 색상
         secondary: '#FFD18E', // 보조 색상
         success: '#FFA38F', // 성공 색상
         danger: '#FF7EE2', // 위험 색상
@@ -20,6 +20,10 @@ export default {
       },
       boxShadow: {
         strong: '0 0 10px rgba(0, 0, 0, 1)', // 강한 그림자 효과
+      },
+      backgroundImage: {
+        'custom-metallic':
+          "url('https://bbansrun.s3.ap-northeast-2.amazonaws.com/S3/metal.png')",
       },
     },
   },

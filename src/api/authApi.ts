@@ -6,24 +6,28 @@ interface Credentials {
   password: string;
 }
 
+// 공통 함수: 토큰과 사용자 정보를 상태 및 localStorage에 저장
+const storeTokenAndUserInfo = (
+  token: string,
+  userUuid: string,
+  roles: string[]
+) => {
+  localStorage.setItem('jwtToken', token);
+  const setAuthInfo = useAuthStore.getState().setAuthInfo;
+  setAuthInfo(userUuid, roles);
+  console.log('UUID:', userUuid);
+  console.log('Roles:', roles);
+};
+
 // 로그인 함수
 export const login = async (credentials: Credentials) => {
   try {
     const response = await apiClient.post('/auth/login', credentials);
-    const token = response.headers['authorization'].replace('Bearer ', '');
+    const token = response.headers['authorization']?.replace('Bearer ', '');
 
     if (token) {
-      localStorage.setItem('jwtToken', token);
-
-      // LoginResponse에서 uuid/roles를 받아와서 저장
       const { userUuid, roles } = response.data; // 응답에서 uuid와 roles 가져오기
-      const setAuthInfo = useAuthStore.getState().setAuthInfo;
-      setAuthInfo(userUuid, roles); // 상태에 저장
-
-      // Zustand 스토어에서 uuid와 roles 상태 확인로그
-      const authState = useAuthStore.getState();
-      console.log('UUID: ', authState.userUuid);
-      console.log('Roles: ', authState.roles);
+      storeTokenAndUserInfo(token, userUuid, roles); // 상태 및 localStorage에 저장
     } else {
       throw new Error('토큰을 받지 못했습니다.');
     }
@@ -33,47 +37,37 @@ export const login = async (credentials: Credentials) => {
   }
 };
 
-export const logout = () => {
-  // 1. localStorage에 저장된 JWT 토큰 삭제
-  localStorage.removeItem('jwtToken');
+// 로그아웃 함수
+export const logout = async () => {
+  try {
+    // 1. 서버에 리프레시 토큰 만료 요청
+    await apiClient.post('/auth/logout');
+    console.log('로그아웃 성공');
 
-  // 2. 서버에 요청을 보내 리프레시 토큰 쿠키 만료 (선택적)
-  apiClient
-    .post('/auth/logout')
-    .then(() => {
-      console.log('로그아웃 성공');
-    })
-    .catch((error) => {
-      console.error('로그아웃 오류:', error);
-    });
+    // 2. localStorage에 저장된 JWT 토큰 삭제
+    localStorage.removeItem('jwtToken');
 
-  // 3. 상태 초기화 (Zustand 사용 중인 경우)
-  const clearAuthInfo = useAuthStore.getState().clearAuthInfo;
-  clearAuthInfo();
+    // 3. 상태 초기화 (Zustand 사용 중인 경우)
+    const clearAuthInfo = useAuthStore.getState().clearAuthInfo;
+    clearAuthInfo();
 
-  // 4. 로그인 페이지로 리디렉션
-  window.location.href = '/login';
+    // 4. 로그인 페이지로 리디렉션
+    window.location.href = '/login';
+  } catch (error) {
+    console.error('로그아웃 오류:', error);
+    throw new Error('로그아웃 실패');
+  }
 };
 
 // 리프레시 토큰을 사용해 새로운 액세스 토큰 요청
 export const refreshAccessToken = async () => {
   try {
     const response = await apiClient.post('/auth/refresh'); // /auth/refresh 엔드포인트로 요청
-    const token = response.headers['authorization'].replace('Bearer ', '');
+    const token = response.headers['authorization']?.replace('Bearer ', '');
 
     if (token) {
-      // 새 액세스 토큰을 localStorage에 저장
-      localStorage.setItem('jwtToken', token);
-
-      // 로그인 시와 마찬가지로 새로운 사용자 정보 업데이트
-      const { userUuid, roles } = response.data; // 응답에서 uuid와 roles 가져오기
-      const setAuthInfo = useAuthStore.getState().setAuthInfo;
-      setAuthInfo(userUuid, roles); // 상태에 저장
-
-      // Zustand 스토어에서 uuid와 roles 상태 확인로그
-      const authState = useAuthStore.getState();
-      console.log('UUID: ', authState.userUuid);
-      console.log('Roles: ', authState.roles);
+      const { userUuid, roles } = response.data;
+      storeTokenAndUserInfo(token, userUuid, roles); // 새로운 정보로 상태 및 토큰 갱신
     } else {
       throw new Error('새로운 액세스 토큰을 받지 못했습니다.');
     }
@@ -83,12 +77,13 @@ export const refreshAccessToken = async () => {
   }
 };
 
+// 유저 정보 가져오기 함수
 export const fetchAuthInfo = async () => {
   try {
     // localStorage에서 토큰 확인
     const token = localStorage.getItem('jwtToken');
-    // 토큰이 없으면 로그인 상태가 아님
     if (!token) {
+      console.warn('로그인된 사용자가 없습니다.');
       return;
     }
 
@@ -100,12 +95,9 @@ export const fetchAuthInfo = async () => {
     });
 
     const { userUuid, roles } = response.data;
-    // Zustand 스토어에 uuid와 roles 업데이트
-    useAuthStore.getState().setAuthInfo(userUuid, roles);
-    // Zustand 스토어에서 uuid와 roles 상태 확인로그
-    const authState = useAuthStore.getState();
-    console.log('UUID: ', authState.userUuid);
-    console.log('Roles: ', authState.roles);
+    useAuthStore.getState().setAuthInfo(userUuid, roles); // Zustand 스토어에 uuid와 roles 업데이트
+    console.log('UUID:', userUuid);
+    console.log('Roles:', roles);
   } catch (error) {
     console.error('유저 정보 가져오기 실패:', error);
   }

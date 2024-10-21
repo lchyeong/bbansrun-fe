@@ -1,8 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+
+// useNavigate로 교체
+
 const TopMenu: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [isSticky, setIsSticky] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   const tabs = ['Menu', 'Menu 2', 'Menu 3', 'Menu 4', 'Menu 5'];
 
@@ -28,7 +34,12 @@ const TopMenu: React.FC = () => {
 
   const handleTabClick = (index: number) => {
     setActiveTab(index);
-    window.scrollTo(0, 0); // 클릭 시 바로 상단으로 이동
+    if (index === 1) {
+      // 2번 탭 클릭 시 카테고리 페이지로 이동
+      navigate('/category');
+    } else {
+      window.scrollTo(0, 0); // 다른 탭 클릭 시 상단으로 이동
+    }
   };
 
   return (
