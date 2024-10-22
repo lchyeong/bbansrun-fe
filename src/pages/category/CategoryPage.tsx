@@ -44,7 +44,7 @@ const CategoryPage: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full min-h-screen flex items-center justify-center bg-primary">
+    <div className="relative w-full min-h-screen flex items-start justify-center bg-primary">
       {/* RegionList 컴포넌트 삽입 */}
       <RegionList
         regions={sidoRegions}

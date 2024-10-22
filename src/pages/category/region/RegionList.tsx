@@ -20,7 +20,7 @@ const RegionList: React.FC<RegionListProps> = ({
   setHoveredRegion,
 }) => {
   return (
-    <div className="absolute top-16 left-4 bg-white p-2 rounded-lg shadow-lg z-10">
+    <div className="absolute left-4 bg-white p-2 rounded-lg shadow-lg z-5">
       <ul className="text-sm">
         {regions.map((region) => (
           <li
