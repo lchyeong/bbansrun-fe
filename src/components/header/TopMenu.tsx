@@ -10,7 +10,7 @@ const TopMenu: React.FC = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
-  const tabs = ['Menu', 'Menu 2', 'Menu 3', 'Menu 4', 'Menu 5'];
+  const tabs = ['Menu', '게시판', 'Menu 3', 'Menu 4', 'Menu 5'];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -70,7 +70,7 @@ const TopMenu: React.FC = () => {
       {/* 탭에 따른 콘텐츠 */}
       <div className={`p-4 ${isSticky ? 'pt-16' : ''}`}>
         {activeTab === 0 && <div>Content for Category 1</div>}
-        {activeTab === 1 && <div>Content for Category 2</div>}
+        {activeTab === 1 && <div>러닝 크루를 모집하는 게시판 입니다.</div>}
         {activeTab === 2 && <div>Content for Category 3</div>}
         {activeTab === 3 && <div>Content for Category 4</div>}
         {activeTab === 4 && <div>Content for Category 5</div>}
