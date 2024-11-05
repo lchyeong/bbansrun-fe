@@ -52,7 +52,7 @@ export const logout = async () => {
     clearAuthInfo();
 
     // 4. 로그인 페이지로 리디렉션
-    window.location.href = '/login';
+    window.location.href = '/';
   } catch (error) {
     console.error('로그아웃 오류:', error);
     throw new Error('로그아웃 실패');
